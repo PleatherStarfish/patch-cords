@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Draggable from "react-draggable";
-import {usePatchCordStateValue} from '../context/providers/StateProvider';
 import onClickOutside from "react-onclickoutside";
+import { usePatchCordStateValue } from '../context/providers/StateProvider';
 
 const Box = (props) => {
   const [activeDrags, setActiveDrags] = useState(0);
@@ -20,7 +20,11 @@ const Box = (props) => {
 
   const dragHandlers = {onStart, onStop};
 
-  Box.handleClickOutside = () => console.log('click outside');
+  Box.handleClickOutside = (event) => {
+    if (event.target.classList.contains("patchable")) {
+      dispatchPatchCordState({type: 'setClicked', click: ''});
+    }
+  };
 
   return (
     <Draggable {...dragHandlers}>
@@ -28,7 +32,7 @@ const Box = (props) => {
         id={id}
         role="button"
         tabIndex={0}
-        className="box"
+        className="box patchable"
         onClick={(event) => {
           dispatchPatchCordState({type: 'setClicked', click: event.target.id});
           dispatchPatchCordState({type: 'addStartNode', new: event.target.id});

@@ -1,16 +1,26 @@
-import React from "react";
-import uniqid from "uniqid";
-import { PatchCordProvider } from "../context/providers/StateProvider";
+import React, {useEffect} from "react";
+
+import {PatchCordProvider} from "../context/providers/StateProvider";
 import patchCordReducer from "../context/reducers/stateReducer";
 import initialState from "../context/state/initialState";
-import Box from "./Box";
+
+import {CursorLocationProvider} from "../context/providers/CursorLocationProvider";
+import cursorLocationReducer from "../context/reducers/cursorLocationReducer";
+import initialCursorLocation from "../context/state/initialCursorLocation";
+
+import Canvas from "./Canvas";
 
 const App = () => {
+
+  useEffect(() => {
+    document.addEventListener("mousemove", (e) => console.log(e.clientX, e.clientY));
+  });
+
   return (
     <PatchCordProvider initialState={initialState} reducer={patchCordReducer}>
-      <Box title="Box One" id={uniqid()} />
-      <Box title="Box Two" id={uniqid()} />
-      <Box title="Box Three" id={uniqid()} />
+      <CursorLocationProvider initialState={initialCursorLocation} reducer={cursorLocationReducer}>
+        <Canvas />
+      </CursorLocationProvider>
     </PatchCordProvider>
   );
 };

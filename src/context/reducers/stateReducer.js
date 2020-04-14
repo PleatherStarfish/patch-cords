@@ -1,7 +1,6 @@
 import uniqid from "uniqid";
 
 const patchCordReducer = (state, action) => {
-  console.log(state);
 
   const cordID = uniqid();
   const newNode = `node${action.new}`;
